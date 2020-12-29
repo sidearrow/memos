@@ -1,14 +1,15 @@
 import React from 'react';
 import { Layout } from '../components/Layout';
 import { GetStaticProps } from 'next';
-import { content } from '../content';
 import Link from 'next/link';
+import { Article } from '../models';
+import { ArticleService } from '../server/articleService';
 
 type Props = {
-  articles: content.Article[];
+  articles: Article[];
 };
 
-const Article: React.FC<{ article: content.Article }> = ({ article }) => (
+const ArticleBox: React.FC<{ article: Article }> = ({ article }) => (
   <div>
     <div>
       <Link href={`article/${article.id}`}>
@@ -32,9 +33,9 @@ const Component: React.FC<Props> = ({ articles }) => (
     <section>
       <h2>記事一覧</h2>
       <div className="mt-4">
-        {articles.map(v => (
-          <div className="mb-2">
-            <Article article={v} />
+        {articles.map((v, i) => (
+          <div className="mb-2" key={i}>
+            <ArticleBox article={v} />
           </div>
         ))}
       </div>
@@ -45,7 +46,11 @@ const Component: React.FC<Props> = ({ articles }) => (
 export default Component;
 
 export const getStaticProps: GetStaticProps<Props> = async () => ({
-  props: { articles: content.getArticleMany().filter(v => v.id !== 'style-confirm') },
+  props: {
+    articles: new ArticleService()
+      .getMany()
+      .filter((v) => v.id !== 'style-confirm'),
+  },
 });
 
 export const config = { amp: true };
