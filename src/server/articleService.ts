@@ -19,15 +19,16 @@ export class ArticleService {
           true
         );
         return {
-          id: path.basename(filename, '.md').substr(11),
+          id: path.basename(filename, '.md'),
           title: frontmatters.title,
           description: frontmatters.description,
+          updatedAt: frontmatters.updatedAt.getTime(),
           content: '',
           tags: [],
         };
       })
       .sort((a, b) => {
-        return Number(a.id > b.id);
+        return b.updatedAt - a.updatedAt;
       });
 
     return articles;
@@ -36,7 +37,7 @@ export class ArticleService {
   getOne(id: string): Article {
     const filename = fs
       .readdirSync(ArticleService.ARTICLES_DIR)
-      .find((filename) => path.basename(filename, '.md').substr(11) === id);
+      .find((filename) => path.basename(filename, '.md') === id);
     if (filename === undefined) {
       throw new Error(`file not found: ${id}`);
     }

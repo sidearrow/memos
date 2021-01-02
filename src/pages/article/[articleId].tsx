@@ -1,7 +1,6 @@
 import React from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { Layout } from '../../components/Layout';
-import { PageHeader } from '../../components/PageHeader';
 import { Article } from '../../models';
 import { ArticleService } from '../../server/articleService';
 
@@ -14,7 +13,6 @@ const Component: React.FC<Props> = ({
 }) => {
   return (
     <Layout title={title} description={description}>
-      <PageHeader title={title} description={description} />
       <div
         className="markdown-body mt-8"
         dangerouslySetInnerHTML={{ __html: content }}
