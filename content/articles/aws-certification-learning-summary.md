@@ -9,6 +9,8 @@ tags: [aws-saa, memo]
 
 # AWS 認定試験学習メモ まとめ
 
+- [EBS](/article/aws-certification-learning-ebs)
+- [EFS](/article/aws-certification-learning-efs)
 - [EC2](/article/aws-certification-learning-ec2)
 - [ECS](/article/aws-certification-learning-ecs)
 - [Redshift](/article/aws-certification-learning-redshift)
