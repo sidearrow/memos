@@ -7,30 +7,43 @@ import { Article } from '../models';
 export class ArticleService {
   private static ARTICLES_DIR = 'content/articles';
 
+  static parseMarkdown(
+    id: string,
+    markdown: string,
+    parseOnlyFrontmatter = false
+  ): Article {
+    const res = parseMarkdown(markdown, parseOnlyFrontmatter);
+    const title: string = res.frontmatters.title;
+    const description: string = res.frontmatters.description;
+    const createdAt: Date = res.frontmatters.createdAt;
+    const updatedAt: Date = res.frontmatters.updatedAt;
+    const content = parseOnlyFrontmatter ? '' : res.content;
+    return {
+      id: id,
+      title: title,
+      description: description,
+      createdAt: createdAt.toISOString().substr(0, 10).replace(/-/g, '/'),
+      updatedAt: updatedAt.toISOString().substr(0, 10).replace(/-/g, '/'),
+      content: content,
+      tags: [],
+    };
+  }
+
   getMany(): Article[] {
     const articles = fs
       .readdirSync(ArticleService.ARTICLES_DIR)
       .map((filename) => {
-        const { frontmatters } = parseMarkdown(
-          fs.readFileSync(
-            path.join(ArticleService.ARTICLES_DIR, filename),
-            'utf-8'
-          ),
-          true
+        const filecontent = fs.readFileSync(
+          path.join(ArticleService.ARTICLES_DIR, filename),
+          'utf-8'
         );
-        return {
-          id: path.basename(filename, '.md'),
-          title: frontmatters.title,
-          description: frontmatters.description,
-          updatedAt: frontmatters.updatedAt.getTime(),
-          content: '',
-          tags: [],
-        };
+        const id = path.basename(filename, '.md');
+        const article = ArticleService.parseMarkdown(id, filecontent, true);
+        return article;
       })
       .sort((a, b) => {
-        return b.updatedAt - a.updatedAt;
+        return b.updatedAt > a.updatedAt ? 1 : -1;
       });
-
     return articles;
   }
 
@@ -41,15 +54,11 @@ export class ArticleService {
     if (filename === undefined) {
       throw new Error(`file not found: ${id}`);
     }
-    const { frontmatters, content } = parseMarkdown(
-      fs.readFileSync(path.join(ArticleService.ARTICLES_DIR, filename), 'utf-8')
+    const filecontent = fs.readFileSync(
+      path.join(ArticleService.ARTICLES_DIR, filename),
+      'utf-8'
     );
-    return {
-      id: id,
-      title: frontmatters.title,
-      description: frontmatters.description,
-      content: content,
-      tags: [],
-    };
+    const article = ArticleService.parseMarkdown(id, filecontent);
+    return article;
   }
 }

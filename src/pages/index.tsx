@@ -16,6 +16,10 @@ const ArticleBox: React.FC<{ article: Article }> = ({ article }) => (
         <a>{article.title}</a>
       </Link>
     </div>
+    <div className="text-sm">
+      <span>作成日：{article.createdAt}</span>
+      <span className="ml-2">更新日：{article.updatedAt}</span>
+    </div>
     {/*
     <div className="pl-4 text-sm">
       {article.tags.map(tag => (
