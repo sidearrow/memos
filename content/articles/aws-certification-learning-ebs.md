@@ -2,7 +2,7 @@
 title: 'AWS 認定試験学習メモ Amazon EBS 編'
 description: ''
 createdAt: 2021-01-04
-updatedAt: 2021-01-04
+updatedAt: 2021-01-09
 tags: [aws, aws-certification]
 ---
 
@@ -23,8 +23,6 @@ tags: [aws, aws-certification]
 - 標準では同じ AZ 内でレプリケートされる
 - スナップショット機能を提供
 - ボリューム内データ、EC2 インスタンス間との移動データ、スナップショットが暗号化される
-
-## ボリュームタイプの特徴
 
 ## 参考資料
 
