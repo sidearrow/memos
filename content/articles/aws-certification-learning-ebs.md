@@ -2,7 +2,7 @@
 title: 'AWS 認定試験学習メモ Amazon EBS 編'
 description: ''
 createdAt: 2021-01-04
-updatedAt: 2021-01-09
+updatedAt: 2021-01-11
 tags: [aws, aws-certification]
 ---
 
@@ -20,6 +20,7 @@ tags: [aws, aws-certification]
   - Cold HDD (sc1)
 - io2 は io1 と比較して耐久性が高い
 - io2, io1 ではパフォーマンスを最大限活用するために、EBS 最適化 EC2 インスタンスの使用が推奨される
+- io1 のみ複数の EC2 インスタンスにアタッチ可能
 - 標準では同じ AZ 内でレプリケートされる
 - スナップショット機能を提供
 - ボリューム内データ、EC2 インスタンス間との移動データ、スナップショットが暗号化される
